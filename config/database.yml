@@ -81,6 +81,4 @@ test:
 #
 production:
   <<: *default
-  database: pabewo_api_production
-  username: pabewo_api
-  password: <%= ENV["PABEWO_API_DATABASE_PASSWORD"] %>
+  url: <%= ENV["DATABASE_URL"] %>
