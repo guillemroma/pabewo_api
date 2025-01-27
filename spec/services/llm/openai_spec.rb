@@ -29,9 +29,8 @@ RSpec.describe Llm::Openai do
 
     it 'calls OpenAI API with correct parameters' do
       expected_params = {
-        model: 'gpt-3.5-turbo',
-        messages: [{ role: 'user', content: 'Write a poem about the moon' }],
-        temperature: 0.7
+        model: 'gpt-4o',
+        messages: [{ role: 'user', content: 'Write a poem about the moon' }]
       }
 
       expect(mock_client).to receive(:chat).with(parameters: expected_params)

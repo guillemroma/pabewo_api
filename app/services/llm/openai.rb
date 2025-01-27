@@ -7,8 +7,8 @@ module Llm
     end
 
     def generate_message
-      response = @client.chat(parameters: { model: 'gpt-3.5-turbo',
-                                            messages: [{ role: 'user', content: 'Write a poem about the moon' }], temperature: 0.7 })
+      response = @client.chat(parameters: { model: 'gpt-4o',
+                                            messages: [{ role: 'user', content: 'Write a poem about the moon' }] })
       response.dig('choices', 0, 'message', 'content')
     end
   end
