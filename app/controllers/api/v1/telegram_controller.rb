@@ -4,29 +4,13 @@ module Api
   module V1
     class TelegramController < ApplicationController
       def webhook
-        token = ENV.fetch('TELEGRAM_BOT_TOKEN')
-        client = Telegram::Bot::Client.new(ENV.fetch('TELEGRAM_BOT_TOKEN'))
+        service = Telegram::MessageService.new(params)
 
-        Rails.logger.info("params: #{params}")
-
-        chat_id = params.dig("message", "chat", "id")
-        message = params.dig("message", "text")
-        message_thread_id = params.dig("message", "message_thread_id")
-
-        Rails.logger.info("chat_id: #{chat_id}")
-        Rails.logger.info("message_thread_id: #{message_thread_id}")
-
-        if message_thread_id.present?
-          reply_message(client, chat_id, message_thread_id, "You said: #{message}, I say: This is a reply in the topic.")
+        if service.send
+          render json: { status: 'success' }, status: :ok
         else
-          reply_message(client, chat_id, nil, "You said: #{message}, I say: This is a reply in the private chat.")
+          render json: { status: 'error', errors: service.errors }, status: :unprocessable_entity
         end
-
-        render json: { status: "success" }, status: :ok                
-      end
-
-      def reply_message(client, chat_id, message_thread_id, message)
-        client.api.send_message(chat_id: chat_id, text: message, message_thread_id: message_thread_id)
       end
     end
   end
